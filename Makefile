@@ -231,7 +231,7 @@ run-kubernetes-master: stop-kubernetes-master
 	docker run \
 		--net=host --name st-apiserver-${KUBE_APISERVER_PORT} \
 		--detach \
-		gcr.io/google_containers/hyperkube-amd64:${K8S_VERSION} kube-apiserver \
+		gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION} kube-apiserver \
 			--bind-address=0.0.0.0 \
 			--secure-port=1${KUBE_APISERVER_PORT} \
 			--insecure-bind-address=0.0.0.0 \
@@ -249,7 +249,7 @@ run-kubernetes-master: stop-kubernetes-master
 	docker run \
 		--net=host --name st-controller-manager-${KUBE_APISERVER_PORT} \
 		--detach \
-		gcr.io/google_containers/hyperkube-amd64:${K8S_VERSION} kube-controller-manager \
+		gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION} kube-controller-manager \
                         --master=127.0.0.1:${KUBE_APISERVER_PORT} \
                         --min-resync-period=3m \
                         --allocate-node-cidrs=true \
@@ -261,7 +261,7 @@ run-kubernetes-master: stop-kubernetes-master
 	    --net=host \
 	    --rm \
 		-v $(CURDIR):/manifests \
-		gcr.io/google_containers/hyperkube-amd64:${K8S_VERSION} kubectl \
+		gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION} kubectl \
 		--server=http://127.0.0.1:${KUBE_APISERVER_PORT} \
 		apply -f /manifests/tests/st/manifests/${KUBE_MOCK_NODE_MANIFEST}; \
 		do echo "Waiting for node to apply successfully..."; sleep 2; done
@@ -270,7 +270,7 @@ run-kubernetes-master: stop-kubernetes-master
 	-docker run \
 	    --net=host \
 	    --rm \
-		gcr.io/google_containers/hyperkube-amd64:${K8S_VERSION} kubectl \
+		gcr.io/google_containers/hyperkube-${ARCH}:${K8S_VERSION} kubectl \
 		--server=http://127.0.0.1:${KUBE_APISERVER_PORT} \
 		create namespace test
 	

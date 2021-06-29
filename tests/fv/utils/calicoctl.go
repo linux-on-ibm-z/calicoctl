@@ -17,13 +17,14 @@ package utils
 import (
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 
 	. "github.com/onsi/gomega"
 	log "github.com/sirupsen/logrus"
 )
 
-var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-amd64"
+var calicoctl = "/go/src/github.com/projectcalico/calicoctl/bin/calicoctl-linux-"+runtime.GOARCH
 
 func Calicoctl(kdd bool, args ...string) string {
 	out, err := CalicoctlMayFail(kdd, args...)
